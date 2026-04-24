@@ -31,12 +31,9 @@ public class StreamingMusica {
         scanner.close();
     }
 
-    /**
-     * LIVE CODING: Professor implementa este método
-     * Exibe o menu principal do sistema
-     */
+    // Menu principal
+
     public static void exibirMenu() {
-        // TODO: Professor implementa ao vivo
         System.out.println("\n=== SISTEMA DE STREAMING ===");
         System.out.println("1. Cadastrar música");
         System.out.println("2. Listar músicas");
@@ -45,9 +42,9 @@ public class StreamingMusica {
         System.out.print("Escolha: ");
     }
 
-    /**
-     * FORNECIDO: Lê opção com tratamento de erro
-     */
+
+// FORNECIDO: Lê opção com tratamento de erro
+
     public static int lerOpcao() {
         try {
             return Integer.parseInt(scanner.nextLine());
@@ -56,65 +53,172 @@ public class StreamingMusica {
         }
     }
 
-    /**
-     * LIVE CODING: Professor implementa este método
-     * Processa a opção escolhida
-     */
+
+
+    // Switch case para decidir a opção
+    
     public static void processarOpcao(int opcao) {
-        // TODO: Professor implementa ao vivo
+    switch (opcao) {
+        case 1:
+            cadastrarMusica();
+            break;
+        case 2:
+            listarMusicas();
+            break;
+        case 3:
+            buscarPorTitulo();
+            break;
+        case 0:
+            System.out.println("Encerrando o sistema...");
+            break;
+        default:
+            System.out.println("Opção inválida!");
     }
+}
 
-    /**
-     * LIVE CODING: Professor implementa este método (PRINCIPAL)
-     * Cadastra uma nova música
-     */
+
+
+
+
+    // cadastrar musica
+
     public static void cadastrarMusica() {
-        System.out.println("\n--- CADASTRAR MÚSICA ---");
+    System.out.println("\n--- CADASTRAR MÚSICA ---");
 
-        // TODO: Professor implementa ao vivo
-        // 1. Solicitar título
-        // 2. Validar título (não vazio)
-        // 3. Solicitar artista
-        // 4. Validar artista
-        // 5. Solicitar duração
-        // 6. Validar duração
-        // 7. Adicionar nos ArrayLists
-        // 8. Exibir mensagem de sucesso
+    // digitar o titulo
+    String titulo;
 
-        System.out.println("⚠️ TODO: Implementar cadastro");
+    do {
+        System.out.print("Título: ");
+        titulo = scanner.nextLine().trim();
+        if (titulo.isEmpty()) {
+            System.out.println("Título não pode estar vazio!");
+        }
+    } while (titulo.isEmpty());
+
+    // digitar o artista
+    String artista;
+
+    do {
+        System.out.print("Artista: ");
+        artista = scanner.nextLine().trim();
+        if (artista.isEmpty()) {
+            System.out.println("Artista não pode estar vazio!");
+        }
+    } while (artista.isEmpty());
+
+    // duração em segundos
+    int duracao = 0;
+    boolean duracaoValida = false;
+
+    while (!duracaoValida) {
+        System.out.print("Duração (em segundos): ");
+
+        // try para o programa não parar
+        try {
+            duracao = Integer.parseInt(scanner.nextLine());
+            
+            if (duracao > 0) {
+                duracaoValida = true;
+            } 
+            
+            else {
+                System.out.println("A duração deve ser maior que zero!");
+            }
+        }
+        
+        // caso dê errado, ele cai no catch e volta para o while
+        catch (NumberFormatException e) {
+            System.out.println("Digite um número válido!");
+        }
     }
 
-    /**
-     * LIVE CODING: Professor implementa este método
-     * Lista todas as músicas
-     */
+    // digitar o gênero
+
+    String genero;
+
+    do {
+        System.out.print("Gênero: ");
+        genero = scanner.nextLine().trim();
+        if (genero.isEmpty()) {
+            System.out.println("Gênero não pode estar vazio!");
+        }
+    } while (genero.isEmpty());
+
+    // adicionar aos arraylists
+    titulos.add(titulo);
+    artistas.add(artista);
+    duracoes.add(duracao);
+    generos.add(genero);
+
+    // finalização do cadastro
+    System.out.println("Música cadastrada com sucesso!");
+}
+
+
+
+
+
+
     public static void listarMusicas() {
-        System.out.println("\n--- MÚSICAS CADASTRADAS ---");
+    System.out.println("\n--- MÚSICAS CADASTRADAS ---");
 
-        // TODO: Professor implementa ao vivo
-        // 1. Verificar se está vazio
-        // 2. Percorrer ArrayLists
-        // 3. Exibir cada música formatada
-
-        System.out.println("⚠️ TODO: Implementar listagem");
+    // verifica se está vazio
+    if (titulos.isEmpty()) {
+        System.out.println("⚠️ Nenhuma música cadastrada!");
+        return;
     }
 
-    /**
-     * ALUNO IMPLEMENTA: Busca por título
-     * (Professor mostra a estrutura, alunos completam depois)
-     */
-    public static void buscarPorTitulo() {
-        System.out.println("\n--- BUSCAR POR TÍTULO ---");
-
-        // TODO: Aluno implementa
-        System.out.print("Digite o título: ");
-        String busca = scanner.nextLine().toLowerCase();
-
-        // TODO: Percorrer e buscar
-        // Dica: usar .contains() e .toLowerCase()
-
-        System.out.println("⚠️ TODO: Implementar busca");
+    // for para caminhar pelos arrays cadastrados e exibibição 
+    for (int i = 0; i < titulos.size(); i++) {
+        
+        System.out.println("\nMúsica " + (i + 1));
+        System.out.println("Título: " + titulos.get(i));
+        System.out.println("Artista: " + artistas.get(i));
+        System.out.println("Duração: " + formatarDuracao(duracoes.get(i)));
+        System.out.println("Gênero: " + generos.get(i));
     }
+}
+
+
+
+
+
+// buscar por titulo
+
+public static void buscarPorTitulo() {
+    System.out.println("\n--- BUSCAR POR TÍTULO ---");
+
+    System.out.print("Digite o título: ");
+    String busca = scanner.nextLine().toLowerCase();
+
+    boolean encontrado = false;
+
+    // for para verificar as músicas
+    for (int i = 0; i < titulos.size(); i++) {
+
+        // verifica se o título tem o texto buscado
+        if (titulos.get(i).toLowerCase().contains(busca)) {
+
+            System.out.println("\nMúsica encontrada:");
+            System.out.println("Título: " + titulos.get(i));
+            System.out.println("Artista: " + artistas.get(i));
+            System.out.println("Duração: " + formatarDuracao(duracoes.get(i)));
+            System.out.println("Gênero: " + generos.get(i));
+
+            encontrado = true;
+        }
+    }
+
+    // se não for encontrado
+    if (!encontrado) {
+        System.out.println("Nenhuma música encontrada!");
+    }
+}
+
+
+
+
 
     /**
      * FORNECIDO: Formata duração
