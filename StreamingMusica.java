@@ -191,16 +191,25 @@ public class StreamingMusica {
 public static void buscarPorTitulo() {
     System.out.println("\n--- BUSCAR POR TÍTULO ---");
 
-    System.out.print("Digite o título: ");
-    String busca = scanner.nextLine().toLowerCase();
+    String busca;
+
+    do {
+        System.out.print("Digite o título: ");
+        busca = scanner.nextLine().toLowerCase().trim();
+
+        if (busca.isEmpty()) {
+            System.out.println("Digite algo para buscar!");
+        }
+
+    } while (busca.isEmpty());
 
     boolean encontrado = false;
 
-    // for para verificar as músicas
     for (int i = 0; i < titulos.size(); i++) {
 
-        // verifica se o título tem o texto buscado
-        if (titulos.get(i).toLowerCase().contains(busca)) {
+        String tituloAtual = titulos.get(i).toLowerCase();
+
+        if (tituloAtual.contains(busca)) {
 
             System.out.println("\nMúsica encontrada:");
             System.out.println("Título: " + titulos.get(i));
@@ -212,7 +221,6 @@ public static void buscarPorTitulo() {
         }
     }
 
-    // se não for encontrado
     if (!encontrado) {
         System.out.println("Nenhuma música encontrada!");
     }
