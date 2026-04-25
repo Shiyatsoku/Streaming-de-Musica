@@ -50,9 +50,7 @@ public class Musica {
     }
 
     public void setGenero(String genero) {
-        if (genero == null) {
-            throw new IllegalArgumentException("Gênero inválido");
-        }
+        if (genero == null) throw new IllegalArgumentException("Gênero inválido");
 
         String g = genero.trim().toLowerCase();
 
