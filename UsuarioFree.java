@@ -1,5 +1,7 @@
 public class UsuarioFree extends Usuario {
 
+    private int reproducoes = 0;
+
     public UsuarioFree(String nome, String email) {
         super(nome, email);
     }
@@ -14,12 +16,19 @@ public class UsuarioFree extends Usuario {
     }
 
     @Override
-    public void exibirMenu() {
-        System.out.println("\n=== MENU FREE ===");
-        System.out.println("1. Reproduzir música");
-        System.out.println("2. Ver histórico");
-        System.out.println("3. Criar playlist (máx. 3)");
-        System.out.println("4. 💎 Fazer upgrade para Premium");
-        System.out.println("0. Sair");
+    public void reproduzirMusica(Musica m) {
+
+        if (reproducoes >= 30) {
+            System.out.println("Limite de reproduções atingido!");
+            return;
+        }
+
+        reproducoes++;
+
+        System.out.println("Reproduzindo: " + m.getTitulo());
+
+        if (reproducoes % 3 == 0) {
+            System.out.println("🔊 Anúncio...");
+        }
     }
 }

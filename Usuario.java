@@ -22,8 +22,4 @@ public class Usuario {
     public void reproduzirMusica(Musica m) {
         System.out.println("Reproduzindo: " + m.getTitulo());
     }
-
-    public void exibirMenu() {
-        System.out.println("Menu padrão");
-    }
 }

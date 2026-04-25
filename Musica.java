@@ -55,7 +55,8 @@ public class Musica {
         String g = genero.trim().toLowerCase();
 
         if (!(g.equals("pop") || g.equals("rock") || g.equals("jazz") ||
-              g.equals("eletrônica") || g.equals("hip-hop") || g.equals("clássica"))) {
+              g.equals("eletronica") || g.equals("eletrônica") ||
+              g.equals("hip-hop") || g.equals("clássica") || g.equals("classica"))) {
             throw new IllegalArgumentException("Gênero inválido");
         }
 
