@@ -97,7 +97,7 @@ public class StreamingMusica {
         //for para percorrer a lista de músicas e mostrar as informações de cada música
         for (int i = 0; i < musicas.size(); i++) {
             Musica m = musicas.get(i);
-            System.out.println(i + " - " + m.titulo + " | " + m.artista);
+            System.out.println(i + " - " + m.getTitulo() + " | " + m.getArtista());
         }
     }
 
@@ -107,8 +107,8 @@ public class StreamingMusica {
         for (Musica m : musicas) {
 
             // contains deixa você buscar parte do nome (não precisa ser igual)
-            if (m.titulo.toLowerCase().contains(busca)) {
-                System.out.println(m.titulo);
+            if (m.getTitulo().toLowerCase().contains(busca)) {
+                System.out.println(m.getTitulo());
             }
         }
     }
@@ -137,8 +137,8 @@ public class StreamingMusica {
             switch (op) {
                 // mostra todas as playlists que o usuario criou
                 case 1:
-                    for (int i = 0; i < usuario.playlists.size(); i++) {
-                        System.out.println(i + " - " + usuario.playlists.get(i).nome);
+                    for (int i = 0; i < usuario.getPlaylists().size(); i++) {
+                        System.out.println(i + " - " + usuario.getPlaylists().get(i).getNome());
                     }
                     break;
 
@@ -148,7 +148,7 @@ public class StreamingMusica {
                 System.out.println("\n--- MÚSICAS ---");
                 // percorre a lista de músicas e mostra o título de cada música com um número
                 for (int i = 0; i < musicas.size(); i++) {
-                    System.out.println(i + " - " + musicas.get(i).titulo);
+                    System.out.println(i + " - " + musicas.get(i).getTitulo());
                 }
 
                 System.out.print("Escolha o número da música: ");
@@ -156,16 +156,16 @@ public class StreamingMusica {
 
                 // listar playlists
                 System.out.println("\n--- PLAYLISTS ---");
-                for (int i = 0; i < usuario.playlists.size(); i++) {
-                    System.out.println(i + " - " + usuario.playlists.get(i).nome);
+                for (int i = 0; i < usuario.getPlaylists().size(); i++) {
+                    System.out.println(i + " - " + usuario.getPlaylists().get(i).getNome());
                 }
 
                 System.out.print("Escolha o número da playlist: ");
                 int p = lerOpcao();
 
                 // validação pra não dar erro
-                if (m >= 0 && m < musicas.size() && p >= 0 && p < usuario.playlists.size()) {
-                    usuario.playlists.get(p).adicionarMusica(musicas.get(m));
+                if (m >= 0 && m < musicas.size() && p >= 0 && p < usuario.getPlaylists().size()) {
+                    usuario.getPlaylists().get(p).adicionarMusica(musicas.get(m));
                     System.out.println("Música adicionada!");
                 } else {
                     System.out.println("Índice inválido!");
@@ -176,29 +176,29 @@ public class StreamingMusica {
                 case 3:
                     // mostrar playlist
                     System.out.println("\n--- PLAYLISTS ---");
-                    for (int i = 0; i < usuario.playlists.size(); i++) {
-                        System.out.println(i + " - " + usuario.playlists.get(i).nome);
+                    for (int i = 0; i < usuario.getPlaylists().size(); i++) {
+                        System.out.println(i + " - " + usuario.getPlaylists().get(i).getNome());
                     }
 
                     System.out.print("Escolha o número da playlist: ");
                     int pl = lerOpcao();
 
                     // valida playlist
-                    if (pl >= 0 && pl < usuario.playlists.size()) {
+                    if (pl >= 0 && pl < usuario.getPlaylists().size()) {
 
-                        Playlist playlist = usuario.playlists.get(pl);
+                        Playlist playlist = usuario.getPlaylists().get(pl);
 
                         // listar músicas da playlist
                         System.out.println("\n--- MÚSICAS DA PLAYLIST ---");
-                        for (int i = 0; i < playlist.musicas.size(); i++) {
-                            System.out.println(i + " - " + playlist.musicas.get(i).titulo);
+                        for (int i = 0; i < playlist.getMusicas().size(); i++) {
+                            System.out.println(i + " - " + playlist.getMusicas().get(i).getTitulo());
                         }
 
                         System.out.print("Escolha o número da música para remover: ");
                         int mus = lerOpcao();
 
                         // valida música
-                        if (mus >= 0 && mus < playlist.musicas.size()) {
+                        if (mus >= 0 && mus < playlist.getMusicas().size()) {
                             playlist.removerMusica(mus);
                             System.out.println("Música removida!");
                         } else {
@@ -214,27 +214,27 @@ public class StreamingMusica {
                 case 4:
     // listar playlists
     System.out.println("\n--- PLAYLISTS ---");
-    for (int i = 0; i < usuario.playlists.size(); i++) {
-        System.out.println(i + " - " + usuario.playlists.get(i).nome);
+    for (int i = 0; i < usuario.getPlaylists().size(); i++) {
+        System.out.println(i + " - " + usuario.getPlaylists().get(i).getNome());
     }
 
     System.out.print("Escolha o número da playlist: ");
     int idx = lerOpcao();
 
     // validação
-    if (idx >= 0 && idx < usuario.playlists.size()) {
+    if (idx >= 0 && idx < usuario.getPlaylists().size()) {
 
-        Playlist pl2 = usuario.playlists.get(idx);
+        Playlist pl2 = usuario.getPlaylists().get(idx);
 
         System.out.println("\n--- DETALHES DA PLAYLIST ---");
-        System.out.println("Nome: " + pl2.nome);
+        System.out.println("Nome: " + pl2.getNome());
 
-        if (pl2.musicas.isEmpty()) {
+        if (pl2.getMusicas().isEmpty()) {
             System.out.println("Playlist vazia!");
         } else {
-            for (int i = 0; i < pl2.musicas.size(); i++) {
-                Musica m2 = pl2.musicas.get(i);
-                System.out.println(i + " - " + m2.titulo + " | " + m2.artista);
+            for (int i = 0; i < pl2.getMusicas().size(); i++) {
+                Musica m2 = pl2.getMusicas().get(i);
+                System.out.println(i + " - " + m2.getTitulo() + " | " + m2.getArtista());
             }
         }
 
@@ -261,4 +261,3 @@ public class StreamingMusica {
         musicas.add(new Musica("Billie Jean", "Michael Jackson", 293, "Pop"));
     }
 }
-
