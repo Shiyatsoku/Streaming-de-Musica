@@ -24,6 +24,7 @@ public class StreamingMusica {
         System.out.println("2. Premium");
         int tipo = lerOpcao();
 
+        // aqui escolhe qual tipo de usuário vai ser criado
         if (tipo == 1) {
             usuario = new UsuarioFree(nome, email);
         } else {
@@ -32,6 +33,8 @@ public class StreamingMusica {
             System.out.println("3. Familiar");
 
             int plano = lerOpcao();
+
+            // operador ternário pra escolher o plano
             String tipoPlano = (plano == 1) ? "Mensal" : (plano == 2) ? "Anual" : "Familiar";
 
             usuario = new UsuarioPremium(nome, email, tipoPlano);
@@ -39,6 +42,7 @@ public class StreamingMusica {
 
         int opcao;
 
+        // loop principal do sistema (fica rodando até sair)
         do {
             exibirMenu();
             opcao = lerOpcao();
@@ -57,8 +61,9 @@ public class StreamingMusica {
         System.out.println("5. Gerenciar playlists");
         System.out.println("6. Exibir estatísticas");
 
+        // instanceof verifica o tipo do objeto (free ou premium)
         if (usuario instanceof UsuarioFree) {
-            System.out.println("7. 💎 Fazer upgrade para Premium");
+            System.out.println("7. ==> FAZER UPGRADE PARA PREMIUM <==");
         } else {
             System.out.println("7. Baixar música");
             System.out.println("8. Ver músicas baixadas");
@@ -72,7 +77,7 @@ public class StreamingMusica {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (Exception e) {
-            return -1;
+            return -1; // se digitar errado não quebra o programa
         }
     }
 
@@ -86,6 +91,7 @@ public class StreamingMusica {
             case 6: estatisticas(); break;
 
             case 7:
+                // aqui muda comportamento dependendo do tipo de usuário
                 if (usuario instanceof UsuarioFree) {
                     System.out.println("Fazendo upgrade...");
                     usuario = new UsuarioPremium(nome, email, "Mensal");
@@ -95,6 +101,7 @@ public class StreamingMusica {
                 break;
 
             case 8:
+                // casting: transformando Usuario em UsuarioPremium
                 if (usuario instanceof UsuarioPremium) {
                     ((UsuarioPremium) usuario).listarBaixadas();
                 } else {
@@ -122,6 +129,7 @@ public class StreamingMusica {
             System.out.print("Gênero: ");
             String genero = scanner.nextLine();
 
+            // cria objeto musica e adiciona na lista
             musicas.add(new Musica(titulo, artista, duracao, genero));
 
             System.out.println("Música cadastrada!");
@@ -133,7 +141,7 @@ public class StreamingMusica {
 
     public static void listarMusicas() {
         for (int i = 0; i < musicas.size(); i++) {
-            Musica m = musicas.get(i);
+            Musica m = musicas.get(i); // pega música da lista
             System.out.println(i + " - " + m.getTitulo() + " | " + m.getArtista());
         }
     }
@@ -142,7 +150,9 @@ public class StreamingMusica {
         System.out.print("Buscar: ");
         String busca = scanner.nextLine().toLowerCase();
 
+        // percorre todas as músicas
         for (Musica m : musicas) {
+            // contains permite buscar parte do nome
             if (m.getTitulo().toLowerCase().contains(busca)) {
                 System.out.println(m.getTitulo());
             }
@@ -152,6 +162,8 @@ public class StreamingMusica {
     public static void criarPlaylist() {
         System.out.print("Nome da playlist: ");
         String nome = scanner.nextLine();
+
+        // chama método do usuário (pode ser diferente em free/premium)
         usuario.criarPlaylist(nome);
     }
 
@@ -167,6 +179,7 @@ public class StreamingMusica {
 
             switch (op) {
                 case 1:
+                    // percorre playlists do usuário
                     for (int i = 0; i < usuario.getPlaylists().size(); i++) {
                         System.out.println(i + " - " + usuario.getPlaylists().get(i).getNome());
                     }
@@ -187,11 +200,13 @@ public class StreamingMusica {
 
         int idx = lerOpcao();
 
+        // valida índice pra não dar erro
         if (idx >= 0 && idx < musicas.size()) {
             ((UsuarioPremium) usuario).baixarMusica(musicas.get(idx));
         }
     }
 
+    // musicas de teste pra não precisar cadastrar toda hora
     public static void adicionarMusicasTeste() {
         musicas.add(new Musica("Bohemian Rhapsody", "Queen", 354, "Rock"));
         musicas.add(new Musica("Billie Jean", "Michael Jackson", 293, "Pop"));
