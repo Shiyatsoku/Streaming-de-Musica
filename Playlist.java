@@ -25,9 +25,7 @@ public class Playlist {
     }
 
     public void adicionarMusica(Musica m) {
-        if (m == null) {
-            throw new IllegalArgumentException("Música inválida");
-        }
+        if (m == null) throw new IllegalArgumentException("Música inválida");
         musicas.add(m);
     }
 
