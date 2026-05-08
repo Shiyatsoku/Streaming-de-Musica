@@ -21,9 +21,11 @@ public class UsuarioPremium extends Usuario {
     }
 
     public void listarBaixadas() {
+
         if (baixadas.isEmpty()) {
             System.out.println("Nenhuma música baixada");
         } else {
+
             for (int i = 0; i < baixadas.size(); i++) {
                 System.out.println(i + " - " + baixadas.get(i).getTitulo());
             }

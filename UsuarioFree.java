@@ -8,6 +8,7 @@ public class UsuarioFree extends Usuario {
 
     @Override
     public void criarPlaylist(String nome) {
+
         if (playlists.size() >= 3) {
             System.out.println("Limite de playlists atingido (3)");
         } else {
