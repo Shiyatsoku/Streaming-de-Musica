@@ -13,6 +13,13 @@ public class StreamingMusica {
 
     static Scanner scanner = new Scanner(System.in);
 
+    // limpar tela (só vai pra baixo no terminal)
+    public static void limparTela() {
+
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+    }
+
     public static void main(String[] args) {
 
         adicionarMusicasTeste();
@@ -20,17 +27,28 @@ public class StreamingMusica {
         int op;
 
         do {
+            
+            limparTela();
 
-            System.out.println("\n=== STREAMING DE MÚSICA ===");
-            System.out.println("1. Criar usuário");
-            System.out.println("2. Fazer login");
-            System.out.println("0. Sair");
+            System.out.println("\n\n" + Cores.VERMELHO + """
+            ╔════════════════════════════╗
+            ║    STREAMING DE MUSICA     ║
+            ╚════════════════════════════╝
+            """ + Cores.RESET);
+            
+            System.out.println( Cores.VERDE + "══════════════════════════════════════════════" + Cores.RESET);
+            System.out.println("1 - Criar usuário");
+            System.out.println("2 - Fazer login");
+            System.out.println("0 - Sair");
+            System.out.println( Cores.VERDE + "══════════════════════════════════════════════" + Cores.RESET);
 
+            System.out.print("\nEscolha: ");
             op = lerOpcao();
 
             switch (op) {
 
                 case 1:
+                    limparTela();
                     criarUsuario();
                     break;
 
@@ -43,11 +61,11 @@ public class StreamingMusica {
                     break;
 
                 case 0:
-                    System.out.println("Saindo...");
+                    System.out.println(Cores.VERDE + "Até breve!" + Cores.RESET);
                     break;
 
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println(Cores.VERMELHO + "Opção inválida!" + Cores.RESET);
             }
 
         } while (op != 0);
@@ -71,17 +89,29 @@ public class StreamingMusica {
         usuarioLogado = null;
     }
 
-    // CRIAR USUÁRIO
+    // MENU CRIAR USUÁRIO
     public static void criarUsuario() {
 
-        System.out.print("Nome: ");
+
+        System.out.println(Cores.VERDE + """
+    ┌────────────────────────────────────┐
+    │        CRIAÇÃO DE USUÁRIO          │
+    └────────────────────────────────────┘
+    """ + Cores.RESET);
+
+        System.out.print("\nNome: ");
         String nome = scanner.nextLine();
 
-        System.out.print("Email: ");
+        System.out.print("\nEmail: ");
         String email = scanner.nextLine();
 
-        System.out.println("1. Free");
-        System.out.println("2. Premium");
+        System.out.println("\n" + Cores.VERDE + "────────────────────────────────────" + Cores.RESET);
+        System.out.println("Escolha o tipo de conta:\n");
+        System.out.println("1 - Conta Free");
+        System.out.println(Cores.AMARELO + "2 - * Premium *" + Cores.RESET);
+        System.out.println("\n" + Cores.VERDE + "────────────────────────────────────" + Cores.RESET);
+
+        System.out.print("\nEscolha: ");
 
         int tipo = lerOpcao();
 
@@ -90,10 +120,15 @@ public class StreamingMusica {
             usuarios.add(new UsuarioFree(nome, email));
 
         } else {
+            
+            System.out.println("\n" + Cores.VERDE + "────────────────────────────────────" + Cores.RESET);
+            System.out.println("\nQual plano premium deseja?\n");
+            System.out.println("1 - Mensal");
+            System.out.println("2 - Anual");
+            System.out.println("3 - Familiar");
+            System.out.println("\n" + Cores.VERDE + "────────────────────────────────────" + Cores.RESET);
 
-            System.out.println("1. Mensal");
-            System.out.println("2. Anual");
-            System.out.println("3. Familiar");
+            System.out.print("\nEscolha: ");
 
             int plano = lerOpcao();
 
@@ -105,29 +140,61 @@ public class StreamingMusica {
             usuarios.add(new UsuarioPremium(nome, email, tipoPlano));
         }
 
-        System.out.println("✅ Usuário criado!");
+        System.out.println(Cores.VERDE + "\nUsuário criado com sucesso!" + Cores.RESET);
+        System.out.println("Pressione Enter para continuar...");
+        scanner.nextLine();
     }
 
-    // LOGIN
+    // MENU LOGIN
     public static void login() {
 
-        System.out.print("Digite o email: ");
-        String email = scanner.nextLine();
+    limparTela();
 
-        for (Usuario u : usuarios) {
+    System.out.println(Cores.VERDE + """
+    ┌────────────────────────────────────┐
+    │         LOGIN DE USUÁRIO           │
+    └────────────────────────────────────┘
+    """ + Cores.RESET);
 
-            if (u.email.equalsIgnoreCase(email)) {
+    System.out.print("Digite seu email: ");
+    String email = scanner.nextLine();
 
-                usuarioLogado = u;
+    for (Usuario u : usuarios) {
 
-                System.out.println("✅ Login realizado!");
-                return;
+        if (u.email.equalsIgnoreCase(email)) {
+
+            usuarioLogado = u;
+
+            System.out.println(Cores.VERDE + "\nLogin realizado com sucesso!" + Cores.RESET);
+            System.out.println("entrando no sistema...");
+
+            // try para dar uma pausa antes de ir ao menu, para o usuário ler a mensagem, mas sem precisar apertar Enter. millis 3000 = 3 segundos
+            try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+
             }
-        }
+            
+            limparTela();
 
-        System.out.println("Usuário não encontrado!");
+            return;
+        }
     }
 
+    System.out.println( Cores.VERMELHO + "\nLogin incorreto. Usuário não encontrado." + Cores.RESET );
+    System.out.println("\nVoltando ao menu...");
+
+    try {
+        Thread.sleep(3000);
+    } catch (Exception e) {
+
+    }
+
+    limparTela();
+}
+
+
+    //MENU PRINCIAL DO SISTEMA
     public static void exibirMenu() {
 
         System.out.println("\n=== SISTEMA DE STREAMING ===");
