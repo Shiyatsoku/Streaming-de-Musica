@@ -8,6 +8,9 @@ public class StreamingMusica {
     // LISTA DE USUÁRIOS
     static ArrayList<Usuario> usuarios = new ArrayList<>();
 
+    static ArrayList<PlaylistAutomatica> playlistsAutomaticas =
+            new ArrayList<>();
+
     // USUÁRIO LOGADO
     static Usuario usuarioLogado = null;
 
@@ -24,10 +27,12 @@ public class StreamingMusica {
 
         adicionarMusicasTeste();
 
+        criarPlaylistsAutomaticas();
+
         int op;
 
         do {
-            
+
             limparTela();
 
             System.out.println("\n\n" + Cores.VERMELHO + """
@@ -35,7 +40,7 @@ public class StreamingMusica {
             ║    STREAMING DE MUSICA     ║
             ╚════════════════════════════╝
             """ + Cores.RESET);
-            
+
             System.out.println( Cores.VERDE + "══════════════════════════════════════════════" + Cores.RESET);
             System.out.println("1 - Criar usuário");
             System.out.println("2 - Fazer login");
@@ -120,7 +125,7 @@ public class StreamingMusica {
             usuarios.add(new UsuarioFree(nome, email));
 
         } else {
-            
+
             System.out.println("\n" + Cores.VERDE + "────────────────────────────────────" + Cores.RESET);
             System.out.println("\nQual plano premium deseja?\n");
             System.out.println("1 - Mensal");
@@ -168,13 +173,12 @@ public class StreamingMusica {
             System.out.println(Cores.VERDE + "\nLogin realizado com sucesso!" + Cores.RESET);
             System.out.println("entrando no sistema...");
 
-            // try para dar uma pausa antes de ir ao menu, para o usuário ler a mensagem, mas sem precisar apertar Enter. millis 3000 = 3 segundos
             try {
                 Thread.sleep(3000);
             } catch (Exception e) {
 
             }
-            
+
             limparTela();
 
             return;
@@ -386,6 +390,7 @@ public class StreamingMusica {
 
             System.out.println("\n=== PLAYLISTS ===");
             System.out.println("1. Listar playlists");
+            System.out.println("2. Reproduzir playlist automática");
             System.out.println("0. Voltar");
 
             op = lerOpcao();
@@ -393,6 +398,8 @@ public class StreamingMusica {
             switch (op) {
 
                 case 1:
+
+                    System.out.println("\n=== SUAS PLAYLISTS ===");
 
                     for (
                         int i = 0;
@@ -407,6 +414,56 @@ public class StreamingMusica {
                                 .get(i)
                                 .getNome()
                         );
+                    }
+
+                    System.out.println("\n=== PLAYLISTS AUTOMÁTICAS ===");
+
+                    for (
+                        int i = 0;
+                        i < playlistsAutomaticas.size();
+                        i++
+                    ) {
+
+                        System.out.println(
+                                i + " - " +
+                                playlistsAutomaticas
+                                .get(i)
+                                .getNome()
+                        );
+                    }
+
+                    break;
+
+                case 2:
+
+                    System.out.println("\n=== PLAYLISTS AUTOMÁTICAS ===");
+
+                    for (
+                        int i = 0;
+                        i < playlistsAutomaticas.size();
+                        i++
+                    ) {
+
+                        System.out.println(
+                                i + " - " +
+                                playlistsAutomaticas
+                                .get(i)
+                                .getNome()
+                        );
+                    }
+
+                    System.out.print("Escolha: ");
+
+                    int idx = lerOpcao();
+
+                    if (
+                        idx >= 0 &&
+                        idx < playlistsAutomaticas.size()
+                    ) {
+
+                        playlistsAutomaticas
+                                .get(idx)
+                                .reproduzir();
                     }
 
                     break;
@@ -442,6 +499,29 @@ public class StreamingMusica {
             ((UsuarioPremium) usuarioLogado)
                     .baixarMusica(musicas.get(idx));
         }
+    }
+
+    public static void criarPlaylistsAutomaticas() {
+
+        PlaylistAutomatica top =
+                new PlaylistAutomatica(
+                        "Top Hits",
+                        "top"
+                );
+
+        top.atualizar(musicas);
+
+        playlistsAutomaticas.add(top);
+
+        PlaylistAutomatica recentes =
+                new PlaylistAutomatica(
+                        "Mais Recentes",
+                        "recentes"
+                );
+
+        recentes.atualizar(musicas);
+
+        playlistsAutomaticas.add(recentes);
     }
 
     // MÚSICAS DE TESTE

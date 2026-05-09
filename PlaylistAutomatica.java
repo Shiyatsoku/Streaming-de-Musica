@@ -14,8 +14,8 @@ public class PlaylistAutomatica extends Playlist {
     @Override
     public void reproduzir() {
 
-        System.out.println("🤖 Playlist automática");
-        System.out.println("📊 Critério: " + criterio);
+        System.out.println("Playlist automática");
+        System.out.println("Critério: " + criterio);
 
         super.reproduzir();
     }

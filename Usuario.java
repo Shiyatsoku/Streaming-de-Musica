@@ -16,7 +16,7 @@ public class Usuario {
     }
 
     public void criarPlaylist(String nome) {
-        playlists.add(new Playlist(nome));
+        playlists.add(new PlaylistPersonalizada(nome));
     }
 
     public void reproduzirMusica(Musica m) {
