@@ -49,6 +49,7 @@ public class StreamingMusica {
             System.out.println( Cores.VERDE + "══════════════════════════════════════════════" + Cores.RESET);
             System.out.println("1 - Criar usuário");
             System.out.println("2 - Fazer login");
+            System.out.println("3 - Listar usuarios");
             System.out.println("0 - Sair");
             System.out.println( Cores.VERDE + "══════════════════════════════════════════════" + Cores.RESET);
 
@@ -68,6 +69,10 @@ public class StreamingMusica {
                     if (usuarioLogado != null) {
                         menuSistema();
                     }
+                    break;
+                
+                case 3:
+                    listarUsuarios();
                     break;
 
                 case 0:
@@ -102,12 +107,13 @@ public class StreamingMusica {
     // MENU CRIAR USUÁRIO
     public static void criarUsuario() {
 
+    try {
 
         System.out.println(Cores.VERDE + """
-    ┌────────────────────────────────────┐
-    │        CRIAÇÃO DE USUÁRIO          │
-    └────────────────────────────────────┘
-    """ + Cores.RESET);
+┌────────────────────────────────────┐
+│        CRIAÇÃO DE USUÁRIO          │
+└────────────────────────────────────┘
+""" + Cores.RESET);
 
         System.out.print("\nNome: ");
         String nome = scanner.nextLine();
@@ -151,9 +157,15 @@ public class StreamingMusica {
         }
 
         System.out.println(Cores.VERDE + "\nUsuário criado com sucesso!" + Cores.RESET);
-        System.out.println("Pressione Enter para continuar...");
-        scanner.nextLine();
+
+    } catch (IllegalArgumentException e) {
+
+        System.out.println(Cores.VERMELHO + "\nErro: " + e.getMessage() + Cores.RESET);
     }
+
+    System.out.println("\nPressione Enter para continuar...");
+    scanner.nextLine();
+}
 
     // MENU LOGIN
     public static void login() {
@@ -549,5 +561,55 @@ public class StreamingMusica {
                         "Pop"
                 )
         );
+    }
+
+
+public static void listarUsuarios() {
+
+    limparTela();
+
+    System.out.println("\n=== USUÁRIOS CADASTRADOS ===");
+
+    if (usuarios.isEmpty()) {
+
+    System.out.println(Cores.VERMELHO + "Nenhum usuário cadastrado." + Cores.RESET);
+    System.out.println("\nVoltando ao menu...");
+
+    try {
+        Thread.sleep(3000);
+    } catch (Exception e) {
+
+    }
+
+    limparTela();
+    return;
+
+    } else {
+
+        for (int i = 0; i < usuarios.size(); i++) {
+
+            Usuario u = usuarios.get(i);
+
+            String tipoConta;
+
+            if (u instanceof UsuarioPremium) {
+                tipoConta = "Premium";
+            } else {
+                tipoConta = "Free";
+            }
+
+            System.out.println(
+                    i + " - " +
+                    u.getNome() +
+                    " | " +
+                    u.getEmail() +
+                    " | Conta: " +
+                    tipoConta
+            );
+        }
+    }
+
+    System.out.println("\nPressione Enter para continuar...");
+    scanner.nextLine();
     }
 }
