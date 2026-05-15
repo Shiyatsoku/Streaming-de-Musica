@@ -35,7 +35,7 @@ public class StreamingMusica {
         criarPlaylistsAutomaticas();
 
         int op;
-
+// menu inicial do sistema (criar usuário, login, listar usuários)
         do {
 
             limparTela();
@@ -50,6 +50,7 @@ public class StreamingMusica {
             System.out.println("1 - Criar usuário");
             System.out.println("2 - Fazer login");
             System.out.println("3 - Listar usuarios");
+            System.out.println("4 - Cadastro automático (não cadastra informações nas estatisticas, apenas para facilitar testes)");
             System.out.println("0 - Sair");
             System.out.println( Cores.VERDE + "══════════════════════════════════════════════" + Cores.RESET);
 
@@ -75,6 +76,23 @@ public class StreamingMusica {
                     listarUsuarios();
                     break;
 
+                case 4:
+                    usuarioLogado = new UsuarioFree(
+                            "Teste",
+                            "teste@gmail.com"
+                    );
+
+                    System.out.println(Cores.VERDE + "\nEntrando automaticamente..." + Cores.RESET);
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (Exception e) {
+
+                    }
+
+                    menuSistema();
+                    break;
+
                 case 0:
                     System.out.println(Cores.VERDE + "Até breve!" + Cores.RESET);
                     break;
@@ -86,7 +104,7 @@ public class StreamingMusica {
         } while (op != 0);
     }
 
-    // MENU PRINCIPAL DO SISTEMA
+
     public static void menuSistema() {
 
         int opcao;
@@ -104,7 +122,7 @@ public class StreamingMusica {
         usuarioLogado = null;
     }
 
-    // MENU CRIAR USUÁRIO
+// menu de criação de usuário (free ou premium)
     public static void criarUsuario() {
 
     try {
@@ -139,9 +157,9 @@ public class StreamingMusica {
 
             System.out.println("\n" + Cores.VERDE + "────────────────────────────────────" + Cores.RESET);
             System.out.println("\nQual plano premium deseja?\n");
-            System.out.println("1 - Mensal");
-            System.out.println("2 - Anual");
-            System.out.println("3 - Familiar");
+            System.out.println("1 - Mensal (R$ 19,90)");
+            System.out.println("2 - Anual (R$ 199,00)");
+            System.out.println("3 - Familiar (R$ 29,90)");
             System.out.println("\n" + Cores.VERDE + "────────────────────────────────────" + Cores.RESET);
 
             System.out.print("\nEscolha: ");
@@ -167,7 +185,7 @@ public class StreamingMusica {
     scanner.nextLine();
 }
 
-    // MENU LOGIN
+// menu de login incial do sistema
     public static void login() {
 
     limparTela();
@@ -210,36 +228,41 @@ public class StreamingMusica {
     } catch (Exception e) {
 
     }
-
     limparTela();
 }
 
 
-    //MENU PRINCIAL DO SISTEMA
-    public static void exibirMenu() {
+// menu inicial do sistema após login (opções específicas para usuário free ou premium)
+public static void exibirMenu() {
 
-        System.out.println("\n=== SISTEMA DE STREAMING ===");
+    System.out.println(Cores.VERDE + """
+    ┌────────────────────────────────────┐
+    │         Sistema de Streaming       │
+    └────────────────────────────────────┘
+    """ + Cores.RESET);
 
-        System.out.println("1. Cadastrar música");
-        System.out.println("2. Listar músicas");
-        System.out.println("3. Buscar música");
-        System.out.println("4. Criar playlist");
-        System.out.println("5. Gerenciar playlists");
-        System.out.println("6. Estatísticas");
+    System.out.println("1. Cadastrar música");
+    System.out.println("2. Listar músicas");
+    System.out.println("3. Buscar música");
+    System.out.println("4. Reproduzir música");
+    System.out.println("5. Criar playlist");
+    System.out.println("6. Gerenciar playlists");
+    System.out.println("7. Estatísticas");
 
-        if (usuarioLogado instanceof UsuarioFree) {
+    if (usuarioLogado instanceof UsuarioFree) {
 
-            System.out.println("7. ==> FAZER UPGRADE PARA PREMIUM <==");
+        System.out.println(Cores.AMARELO + "\n8. ==> FAZER UPGRADE PARA PREMIUM <==\n" + Cores.RESET);
 
-        } else {
+    } else {
 
-            System.out.println("7. Baixar música");
-            System.out.println("8. Ver músicas baixadas");
-        }
-
-        System.out.println("0. Logout");
-        System.out.print("Escolha: ");
+        System.out.println("8. Baixar música");
+        System.out.println("9. Ver músicas baixadas");
     }
+
+    System.out.println("0. Logout\n");
+
+    System.out.print("Escolha: ");
+}
 
     public static int lerOpcao() {
 
@@ -266,19 +289,23 @@ public class StreamingMusica {
                 buscarMusica();
                 break;
 
-            case 4:
+                case 4:
+                    reproduzirMusica();
+                    break;
+                    
+            case 5:
                 criarPlaylist();
                 break;
 
-            case 5:
+            case 6:
                 gerenciarPlaylists();
                 break;
 
-            case 6:
+            case 7:
                 estatisticas();
                 break;
 
-            case 7:
+            case 8:
 
                 if (usuarioLogado instanceof UsuarioFree) {
 
@@ -298,7 +325,7 @@ public class StreamingMusica {
 
                 break;
 
-            case 8:
+            case 9: 
 
                 if (usuarioLogado instanceof UsuarioPremium) {
 
@@ -320,40 +347,76 @@ public class StreamingMusica {
         }
     }
 
-    public static void cadastrarMusica() {
+// opção 1 cadastrar música
+   public static void cadastrarMusica() {
+
+    try {
+
+        System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│         Cadastrar Música           │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+        System.out.print("\nTítulo: ");
+        String titulo = scanner.nextLine();
+
+        System.out.print("Artista: ");
+        String artista = scanner.nextLine();
+
+        System.out.print("Duração: ");
+        int duracao = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Gênero: ");
+        String genero = scanner.nextLine();
+
+        musicas.add(
+                new Musica(
+                        titulo,
+                        artista,
+                        duracao,
+                        genero
+                )
+        );
+
+        System.out.println(Cores.VERDE + "\nMúsica cadastrada com sucesso!" + Cores.RESET);
 
         try {
-
-            System.out.print("Título: ");
-            String titulo = scanner.nextLine();
-
-            System.out.print("Artista: ");
-            String artista = scanner.nextLine();
-
-            System.out.print("Duração: ");
-            int duracao = Integer.parseInt(scanner.nextLine());
-
-            System.out.print("Gênero: ");
-            String genero = scanner.nextLine();
-
-            musicas.add(
-                    new Musica(
-                            titulo,
-                            artista,
-                            duracao,
-                            genero
-                    )
-            );
-
-            System.out.println("✅ Música cadastrada!");
-
+            Thread.sleep(2000);
         } catch (Exception e) {
 
-            System.out.println("Erro ao cadastrar música!");
         }
-    }
 
-    public static void listarMusicas() {
+        limparTela();
+
+    } catch (Exception e) {
+
+        System.out.println(Cores.VERMELHO + "\nErro ao cadastrar música!" + Cores.RESET);
+
+        try {
+            Thread.sleep(2000);
+        } catch (Exception ex) {
+
+        }
+
+        limparTela();
+    }
+}
+
+// opção 2 listar músicas
+public static void listarMusicas() {
+
+    System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│          LISTA DE MÚSICAS          │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+    if (musicas.isEmpty()) {
+
+        System.out.println(Cores.VERMELHO + "\nNenhuma música cadastrada." + Cores.RESET);
+
+    } else {
 
         for (int i = 0; i < musicas.size(); i++) {
 
@@ -368,155 +431,339 @@ public class StreamingMusica {
         }
     }
 
-    public static void buscarMusica() {
+    System.out.println("\nPressione Enter para voltar ao menu...");
+    scanner.nextLine();
 
-        System.out.print("Buscar: ");
+    limparTela();
+}
 
-        String busca =
-                scanner.nextLine().toLowerCase();
+// opção 3 buscar música por título
+public static void buscarMusica() {
 
-        for (Musica m : musicas) {
+    limparTela();
 
-            if (
-                m.getTitulo()
-                .toLowerCase()
-                .contains(busca)
-            ) {
+    System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│           BUSCAR MÚSICA            │
+└────────────────────────────────────┘
+""" + Cores.RESET);
 
-                System.out.println(m.getTitulo());
-            }
+    System.out.print("\nDigite o nome da música: ");
+
+    String busca = scanner.nextLine().toLowerCase();
+
+    boolean encontrada = false;
+
+    System.out.println("\n" + Cores.CIANO + "Resultados encontrados:\n" + Cores.RESET);
+
+    for (Musica m : musicas) {
+
+        if (m.getTitulo().toLowerCase().contains(busca)) {
+
+            System.out.println(m.getTitulo() + " | " + m.getArtista() + " | " + m.formatarDuracao());
+
+            encontrada = true;
         }
     }
 
-    public static void criarPlaylist() {
+    if (!encontrada) System.out.println(Cores.VERMELHO + "Nenhuma música encontrada." + Cores.RESET);
 
-        System.out.print("Nome da playlist: ");
+    System.out.println("\nPressione Enter para voltar...");
 
-        String nome = scanner.nextLine();
+    scanner.nextLine();
 
-        usuarioLogado.criarPlaylist(nome);
+    limparTela();
+}
 
-        System.out.println("✅ Playlist criada!");
+// opção 4 criar playlist
+public static void criarPlaylist() {
+
+    limparTela();
+
+    System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│          CRIAR PLAYLIST            │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+    System.out.print("\nNome da playlist: ");
+
+    String nome = scanner.nextLine();
+
+    int antes = usuarioLogado.getPlaylists().size();
+
+    usuarioLogado.criarPlaylist(nome);
+
+    int depois = usuarioLogado.getPlaylists().size();
+
+    if (depois > antes) {
+
+        System.out.println(Cores.VERDE + "\nPlaylist criada com sucesso!" + Cores.RESET);
+
+    } else {
+
+        System.out.println(Cores.VERMELHO + "\nNão foi possível criar a playlist." + Cores.RESET);
     }
 
-    public static void gerenciarPlaylists() {
+    try {
+        Thread.sleep(2000);
+    } catch (Exception e) {
 
-        int op;
-
-        do {
-
-            System.out.println("\n=== PLAYLISTS ===");
-            System.out.println("1. Listar playlists");
-            System.out.println("2. Reproduzir playlist automática");
-            System.out.println("0. Voltar");
-
-            op = lerOpcao();
-
-            switch (op) {
-
-                case 1:
-
-                    System.out.println("\n=== SUAS PLAYLISTS ===");
-
-                    for (
-                        int i = 0;
-                        i < usuarioLogado.getPlaylists().size();
-                        i++
-                    ) {
-
-                        System.out.println(
-                                i + " - " +
-                                usuarioLogado
-                                .getPlaylists()
-                                .get(i)
-                                .getNome()
-                        );
-                    }
-
-                    System.out.println("\n=== PLAYLISTS AUTOMÁTICAS ===");
-
-                    for (
-                        int i = 0;
-                        i < playlistsAutomaticas.size();
-                        i++
-                    ) {
-
-                        System.out.println(
-                                i + " - " +
-                                playlistsAutomaticas
-                                .get(i)
-                                .getNome()
-                        );
-                    }
-
-                    break;
-
-                case 2:
-
-                    System.out.println("\n=== PLAYLISTS AUTOMÁTICAS ===");
-
-                    for (
-                        int i = 0;
-                        i < playlistsAutomaticas.size();
-                        i++
-                    ) {
-
-                        System.out.println(
-                                i + " - " +
-                                playlistsAutomaticas
-                                .get(i)
-                                .getNome()
-                        );
-                    }
-
-                    System.out.print("Escolha: ");
-
-                    int idx = lerOpcao();
-
-                    if (
-                        idx >= 0 &&
-                        idx < playlistsAutomaticas.size()
-                    ) {
-
-                        playlistsAutomaticas
-                                .get(idx)
-                                .reproduzir();
-                    }
-
-                    break;
-            }
-
-        } while (op != 0);
     }
 
-    public static void estatisticas() {
+    limparTela();
+}
 
-        System.out.println(
-                "Total músicas: " +
-                musicas.size()
-        );
+// opção 5 gerenciar playlists (listar playlists do usuário e playlists automáticas, reproduzir playlist automática)
+  public static void gerenciarPlaylists() {
 
-        System.out.println(
-                "Total usuários: " +
-                usuarios.size()
-        );
-    }
+    int op;
 
-    public static void baixarMusica() {
+    do {
 
-        listarMusicas();
+        limparTela();
 
-        int idx = lerOpcao();
+        System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│        GERENCIAR PLAYLISTS         │
+└────────────────────────────────────┘
+""" + Cores.RESET);
 
-        if (
-            idx >= 0 &&
-            idx < musicas.size()
-        ) {
+        System.out.println("1 - Ver todas playlists");
+        System.out.println("2 - Reproduzir playlist");
+        System.out.println("0 - Voltar");
 
-            ((UsuarioPremium) usuarioLogado)
-                    .baixarMusica(musicas.get(idx));
+        System.out.print("\nEscolha: ");
+
+        op = lerOpcao();
+
+        switch (op) {
+
+            case 1:
+
+                limparTela();
+
+                System.out.println(Cores.CIANO + """
+=== SUAS PLAYLISTS ===
+""" + Cores.RESET);
+
+                if (usuarioLogado.getPlaylists().isEmpty()) {
+
+                    System.out.println("Nenhuma playlist criada.");
+
+                } else {
+
+                    for (int i = 0; i < usuarioLogado.getPlaylists().size(); i++) {
+
+                        System.out.println(
+                                (i + 1) + ". " +
+                                usuarioLogado.getPlaylists().get(i).getNome()
+                        );
+                    }
+                }
+
+                System.out.println(Cores.CIANO + """
+                
+=== PLAYLISTS AUTOMÁTICAS ===
+""" + Cores.RESET);
+
+                System.out.println("1. Top 10 Mais Tocadas");
+                System.out.println("2. Recomendadas para Você");
+                System.out.println("3. Adicionadas Recentemente");
+
+                System.out.println("\nPressione Enter para voltar...");
+                scanner.nextLine();
+
+                break;
+
+            case 2:
+
+                limparTela();
+
+                System.out.println(Cores.CIANO + """
+=== ESCOLHA UMA PLAYLIST ===
+""" + Cores.RESET);
+
+                int contador = 1;
+
+                for (int i = 0; i < usuarioLogado.getPlaylists().size(); i++) {
+
+                    System.out.println(
+                            contador + ". " +
+                            usuarioLogado.getPlaylists().get(i).getNome()
+                    );
+
+                    contador++;
+                }
+
+                System.out.println(contador + ". Top 10 Mais Tocadas");
+                contador++;
+
+                System.out.println(contador + ". Recomendadas para Você");
+                contador++;
+
+                System.out.println(contador + ". Adicionadas Recentemente");
+
+                System.out.print("\nEscolha: ");
+
+                int escolha = lerOpcao();
+
+                limparTela();
+
+                System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│         REPRODUZINDO               │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+                int qtdUsuario = usuarioLogado.getPlaylists().size();
+
+                if (escolha >= 1 && escolha <= qtdUsuario) {
+
+                    usuarioLogado
+                            .getPlaylists()
+                            .get(escolha - 1)
+                            .reproduzir(usuarioLogado);
+
+                } else if (escolha == qtdUsuario + 1) {
+
+                    System.out.println("Gerando playlist \"Top 10 Mais Tocadas\"...\n");
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
+
+                    }
+
+                    playlistsAutomaticas.get(0).reproduzir(usuarioLogado) ;
+
+                } else if (escolha == qtdUsuario + 2) {
+
+                    System.out.println("Gerando playlist \"Recomendadas para Você\"...\n");
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
+
+                    }
+
+                    playlistsAutomaticas.get(1).reproduzir(usuarioLogado);
+
+                } else if (escolha == qtdUsuario + 3) {
+
+                    System.out.println("Gerando playlist \"Adicionadas Recentemente\"...\n");
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
+
+                    }
+
+                    playlistsAutomaticas.get(2).reproduzir(usuarioLogado);
+
+                } else {
+
+                    System.out.println(Cores.VERMELHO + "Playlist inválida." + Cores.RESET);
+                }
+
+                System.out.println("\nPressione Enter para voltar...");
+                scanner.nextLine();
+
+                break;
+
+            case 0:
+
+                limparTela();
+
+                break;
+
+            default:
+
+                System.out.println(Cores.VERMELHO + "Opção inválida." + Cores.RESET);
+
+                try {
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+
+                }
+        }
+
+    } while (op != 0);
+}
+
+public static void estatisticas() {
+
+    limparTela();
+
+    int usuariosFree = 0;
+    int usuariosPremium = 0;
+
+    int reproducoesFree = 0;
+    int reproducoesPremium = 0;
+
+    for (Usuario u : usuarios) {
+
+        if (u instanceof UsuarioPremium) {
+
+            usuariosPremium++;
+            reproducoesPremium += u.getReproducoes();
+
+        } else {
+
+            usuariosFree++;
+            reproducoesFree += u.getReproducoes();
         }
     }
+
+    int totalUsuarios = usuarios.size();
+
+    int reproducoesTotais =
+            reproducoesFree + reproducoesPremium;
+
+    int porcentagemFree = 0;
+    int porcentagemPremium = 0;
+
+    if (reproducoesTotais > 0) {
+
+        porcentagemFree =
+                (reproducoesFree * 100) / reproducoesTotais;
+
+        porcentagemPremium =
+                (reproducoesPremium * 100) / reproducoesTotais;
+    }
+
+    int anuncios = reproducoesFree / 3;
+
+    System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│      ESTATÍSTICAS DO SISTEMA       │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+    System.out.println("Total de usuários: " + totalUsuarios);
+
+    System.out.println("- Free: " + usuariosFree + " usuários");
+
+    System.out.println("- Premium: " + usuariosPremium + " usuários");
+
+    System.out.println();
+
+    System.out.println("Reproduções totais: " + reproducoesTotais);
+
+    System.out.println("- Free: " + reproducoesFree + " reproduções (" + porcentagemFree + "%)");
+
+    System.out.println("- Premium: " + reproducoesPremium + " reproduções (" + porcentagemPremium + "%)");
+
+    System.out.println();
+
+    System.out.println("Anúncios exibidos: " + anuncios);
+
+    System.out.println("\nPressione Enter para voltar...");
+
+    scanner.nextLine();
+
+    limparTela();
+}
 
     public static void criarPlaylistsAutomaticas() {
 
@@ -568,7 +815,7 @@ public static void listarUsuarios() {
 
     limparTela();
 
-    System.out.println("\n=== USUÁRIOS CADASTRADOS ===");
+    System.out.println("\n" + Cores.AZUL + "=== USUÁRIOS CADASTRADOS ===\n" + Cores.RESET);
 
     if (usuarios.isEmpty()) {
 
@@ -611,5 +858,94 @@ public static void listarUsuarios() {
 
     System.out.println("\nPressione Enter para continuar...");
     scanner.nextLine();
+    }
+
+public static void reproduzirMusica() {
+
+    limparTela();
+
+    System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│         REPRODUZIR MÚSICA          │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+    if (musicas.isEmpty()) {
+
+        System.out.println(Cores.VERMELHO + "Nenhuma música cadastrada." + Cores.RESET);
+
+    } else {
+
+        for (int i = 0; i < musicas.size(); i++) {
+
+            Musica m = musicas.get(i);
+
+            System.out.println(i + " - " + m.getTitulo() + " | " + m.getArtista());
+        }
+
+        System.out.print("\nEscolha: ");
+
+        int idx = lerOpcao();
+
+        if (idx >= 0 && idx < musicas.size()) {
+
+            limparTela();
+
+            System.out.println(Cores.CIANO + """
+┌────────────────────────────────────┐
+│            REPRODUZINDO            │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+            usuarioLogado.reproduzirMusica(musicas.get(idx));
+
+        } else {
+
+            System.out.println(Cores.VERMELHO + "Música inválida." + Cores.RESET);
+        }
+    }
+
+    System.out.println("\nPressione Enter para voltar...");
+
+    scanner.nextLine();
+
+    limparTela();
+    }
+
+    public static void baixarMusica() {
+
+    limparTela();
+
+    System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│           BAIXAR MÚSICA            │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+    for (int i = 0; i < musicas.size(); i++) {
+
+        Musica m = musicas.get(i);
+
+        System.out.println(i + " - " + m.getTitulo() + " | " + m.getArtista());
+    }
+
+    System.out.print("\nEscolha: ");
+
+    int idx = lerOpcao();
+
+    if (idx >= 0 && idx < musicas.size()) {
+
+        ((UsuarioPremium) usuarioLogado).baixarMusica(musicas.get(idx));
+
+    } else {
+
+        System.out.println(Cores.VERMELHO + "Música inválida." + Cores.RESET);
+    }
+
+    System.out.println("\nPressione Enter para voltar...");
+
+    scanner.nextLine();
+
+    limparTela();
     }
 }

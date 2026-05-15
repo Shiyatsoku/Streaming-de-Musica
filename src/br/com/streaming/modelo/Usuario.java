@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Usuario {
 
+    protected int reproducoes = 0;
     protected String nome;
     protected String email;
     protected ArrayList<Playlist> playlists = new ArrayList<>();
@@ -40,6 +41,11 @@ public class Usuario {
     }
 
     public void reproduzirMusica(Musica m) {
+        reproducoes++;
         System.out.println("Reproduzindo: " + m.getTitulo());
+    }
+
+    public int getReproducoes() {
+        return reproducoes;
     }
 }

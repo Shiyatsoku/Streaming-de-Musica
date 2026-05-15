@@ -1,5 +1,5 @@
-package br.com.streaming.servico;
+    package br.com.streaming.servico;
 
-public class GeradorRecomendacoes {
-    
-}
+    public class GeradorRecomendacoes {
+        
+    }

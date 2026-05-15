@@ -1,8 +1,8 @@
 package br.com.streaming.modelo;
 
-public class UsuarioFree extends Usuario {
+import br.com.streaming.util.Cores;
 
-    private int reproducoes = 0;
+public class UsuarioFree extends Usuario {
 
     public UsuarioFree(String nome, String email) {
         super(nome, email);
@@ -19,19 +19,25 @@ public class UsuarioFree extends Usuario {
     }
 
     @Override
-    public void reproduzirMusica(Musica m) {
+public void reproduzirMusica(Musica m) {
 
-        if (reproducoes >= 30) {
-            System.out.println("Limite de reproduções atingido!");
-            return;
+    if (reproducoes >= 30) {
+        System.out.println(Cores.VERMELHO + "Limite de reproduções atingido!" + Cores.RESET);
+        return;
+    }
+
+    reproducoes++;
+
+    if (reproducoes % 3 == 0) {
+        System.out.println(Cores.VERMELHO + "\n* ANÚNCIO *\n" + Cores.RESET);
+
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+
         }
+    }
 
-        reproducoes++;
-
-        System.out.println("Reproduzindo: " + m.getTitulo());
-
-        if (reproducoes % 3 == 0) {
-            System.out.println("🔊 Anúncio...");
-        }
+    System.out.println("Reproduzindo: " + m.getTitulo());
     }
 }

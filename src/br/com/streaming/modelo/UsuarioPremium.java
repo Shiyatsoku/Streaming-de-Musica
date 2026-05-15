@@ -12,10 +12,11 @@ public class UsuarioPremium extends Usuario {
         this.plano = plano;
     }
 
-    @Override
-    public void reproduzirMusica(Musica m) {
-        System.out.println("Reproduzindo em alta qualidade: " + m.getTitulo());
-    }
+@Override
+public void reproduzirMusica(Musica m) {
+    reproducoes++;
+    System.out.println("Reproduzindo em alta qualidade: " + m.getTitulo());
+}
 
     public void baixarMusica(Musica m) {
         baixadas.add(m);

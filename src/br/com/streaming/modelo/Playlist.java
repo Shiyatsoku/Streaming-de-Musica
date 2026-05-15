@@ -1,6 +1,7 @@
 package br.com.streaming.modelo;
 
 import java.util.ArrayList;
+import br.com.streaming.util.Cores;
 
 public class Playlist {
 
@@ -47,12 +48,19 @@ public class Playlist {
         }
     }
 
-    public void reproduzir() {
+public void reproduzir(Usuario usuario) {
 
-        System.out.println("Reproduzindo playlist: " + nome);
+    System.out.println(Cores.CIANO + "Reproduzindo playlist: " + nome + "\n" + Cores.RESET);
 
-        for (Musica m : musicas) {
-            System.out.println("▶ " + m.getTitulo());
+    for (Musica m : musicas) {
+
+        usuario.reproduzirMusica(m);
+
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+
         }
     }
+}
 }
