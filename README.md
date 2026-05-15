@@ -69,11 +69,16 @@ Antes de começar, você precisa ter instalado:
 - VS Code, IntelliJ IDEA ou Eclipse
 - Git (opcional)
 
+---
+
 👤 Autor
 Nome: Miguel Augusto da Costa Souza
 RA: 43998704
 
+---
+
 📅 Histórico
+
 Checkpoint 1
 Criação da estrutura inicial do projeto
 Cadastro de músicas
