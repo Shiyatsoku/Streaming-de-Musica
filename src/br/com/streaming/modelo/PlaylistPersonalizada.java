@@ -7,10 +7,10 @@ public class PlaylistPersonalizada extends Playlist {
     }
 
     @Override
-    public void reproduzir(Usuario usuario) {
+    public void reproduzir() {
 
         System.out.println("Playlist personalizada");
 
-        super.reproduzir(usuario);
+        super.reproduzir();
     }
 }

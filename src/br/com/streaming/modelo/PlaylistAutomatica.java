@@ -14,12 +14,12 @@ public class PlaylistAutomatica extends Playlist {
     }
 
     @Override
-   public void reproduzir(Usuario usuario) {
+public void reproduzir() {
 
         System.out.println("Playlist automática");
         System.out.println("Critério: " + criterio);
 
-        super.reproduzir(usuario);
+        super.reproduzir();
     }
 
     public void atualizar(ArrayList<Musica> todasMusicas) {

@@ -623,7 +623,7 @@ public static void criarPlaylist() {
                     usuarioLogado
                             .getPlaylists()
                             .get(escolha - 1)
-                            .reproduzir(usuarioLogado);
+                            .reproduzir();
 
                 } else if (escolha == qtdUsuario + 1) {
 
@@ -635,7 +635,7 @@ public static void criarPlaylist() {
 
                     }
 
-                    playlistsAutomaticas.get(0).reproduzir(usuarioLogado) ;
+                    playlistsAutomaticas.get(0).reproduzir() ;
 
                 } else if (escolha == qtdUsuario + 2) {
 
@@ -647,7 +647,7 @@ public static void criarPlaylist() {
 
                     }
 
-                    playlistsAutomaticas.get(1).reproduzir(usuarioLogado);
+                    playlistsAutomaticas.get(1).reproduzir();
 
                 } else if (escolha == qtdUsuario + 3) {
 
@@ -659,7 +659,7 @@ public static void criarPlaylist() {
 
                     }
 
-                    playlistsAutomaticas.get(2).reproduzir(usuarioLogado);
+                    playlistsAutomaticas.get(2).reproduzir();
 
                 } else {
 
