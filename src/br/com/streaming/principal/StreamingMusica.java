@@ -256,7 +256,7 @@ public static void exibirMenu() {
     } else {
 
         System.out.println("8. Baixar música");
-        System.out.println("9. Ver músicas baixadas");
+        System.out.println("9. Músicas baixadas");
     }
 
     System.out.println("0. Logout\n");
@@ -325,14 +325,13 @@ public static void exibirMenu() {
 
                 break;
 
-            case 9: 
+            case 9:
 
                 if (usuarioLogado instanceof UsuarioPremium) {
-
-                    ((UsuarioPremium) usuarioLogado).listarBaixadas();
-
-                } else {
-
+                    menuBaixadas();
+                } 
+                
+                else {
                     System.out.println("Opção inválida!");
                 }
 
@@ -939,7 +938,7 @@ public static void reproduzirMusica() {
 
     if (idx >= 0 && idx < musicas.size()) {
 
-        ((UsuarioPremium) usuarioLogado).baixarMusica(musicas.get(idx));
+        ((UsuarioPremium) usuarioLogado).baixar(musicas.get(idx));
 
     } else {
 
@@ -951,5 +950,144 @@ public static void reproduzirMusica() {
     scanner.nextLine();
 
     limparTela();
+    }
+
+    public static void menuBaixadas() {
+
+    int op;
+
+    UsuarioPremium premium =
+            (UsuarioPremium) usuarioLogado;
+
+    do {
+
+        limparTela();
+
+        System.out.println(Cores.CIANO + """
+┌────────────────────────────────────┐
+│         MÚSICAS BAIXADAS           │
+└────────────────────────────────────┘
+""" + Cores.RESET);
+
+        System.out.println("1 - Ver músicas baixadas");
+        System.out.println("2 - Reproduzir música");
+        System.out.println("3 - Remover música");
+        System.out.println("0 - Voltar");
+
+        System.out.print("\nEscolha: ");
+
+        op = lerOpcao();
+
+        switch (op) {
+
+            case 1:
+
+                limparTela();
+
+                premium.listarBaixadas();
+
+                System.out.println("\nPressione Enter para voltar...");
+                scanner.nextLine();
+
+                break;
+
+            case 2:
+
+                limparTela();
+
+                premium.listarBaixadas();
+
+                if (premium.getTamanhoBaixados() > 0) {
+
+                    System.out.print("\nEscolha a música: ");
+
+                    int idx = lerOpcao();
+
+                    if (
+                        idx >= 0 &&
+                        idx < premium.getTamanhoBaixados()
+                    ) {
+
+                        premium
+                                .getBaixadas()
+                                .get(idx)
+                                .reproduzir();
+
+                    } else {
+
+                        System.out.println(
+                                Cores.VERMELHO +
+                                "\nMúsica inválida!" +
+                                Cores.RESET
+                        );
+                    }
+                }
+
+                System.out.println("\nPressione Enter para voltar...");
+                scanner.nextLine();
+
+                break;
+
+            case 3:
+
+                limparTela();
+
+                premium.listarBaixadas();
+
+                if (premium.getTamanhoBaixados() > 0) {
+
+                    System.out.print("\nEscolha a música: ");
+
+                    int idx = lerOpcao();
+
+                    if (
+                        idx >= 0 &&
+                        idx < premium.getTamanhoBaixados()
+                    ) {
+
+                        Musica musica =
+                                premium
+                                .getBaixadas()
+                                .get(idx);
+
+                        premium.removerDownload(musica);
+
+                    } else {
+
+                        System.out.println(
+                                Cores.VERMELHO +
+                                "\nMúsica inválida!" +
+                                Cores.RESET
+                        );
+                    }
+                }
+
+                System.out.println("\nPressione Enter para voltar...");
+                scanner.nextLine();
+
+                break;
+
+            case 0:
+
+                limparTela();
+
+                break;
+
+            default:
+
+                System.out.println(
+                        Cores.VERMELHO +
+                        "\nOpção inválida!" +
+                        Cores.RESET
+                );
+
+                try {
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+
+                }
+        }
+
+    } while (op != 0);
     }
 }

@@ -2,7 +2,10 @@ package br.com.streaming.modelo;
 
 import java.util.ArrayList;
 
-public class UsuarioPremium extends Usuario {
+import br.com.streaming.servico.Baixavel;
+import br.com.streaming.util.Cores;
+
+public class UsuarioPremium extends Usuario implements Baixavel {
 
     private String plano;
     private ArrayList<Musica> baixadas = new ArrayList<>();
@@ -18,20 +21,100 @@ public void reproduzirMusica(Musica m) {
     System.out.println("Reproduzindo em alta qualidade: " + m.getTitulo());
 }
 
-    public void baixarMusica(Musica m) {
-        baixadas.add(m);
-        System.out.println("Música baixada: " + m.getTitulo());
+    @Override
+public void baixar(Musica musica) {
+
+    if (estaBaixada(musica)) {
+
+        System.out.println(
+                Cores.VERMELHO +
+                "\nMúsica já baixada!" +
+                Cores.RESET
+        );
+
+        return;
     }
 
-    public void listarBaixadas() {
+    System.out.println(Cores.VERDE + """
+┌────────────────────────────────────┐
+│          BAIXANDO MÚSICA           │
+└────────────────────────────────────┘
+""" + Cores.RESET);
 
-        if (baixadas.isEmpty()) {
-            System.out.println("Nenhuma música baixada");
-        } else {
+    System.out.println("> Música: " + musica.getTitulo());
+    System.out.println("> Artista: " + musica.getArtista());
 
-            for (int i = 0; i < baixadas.size(); i++) {
-                System.out.println(i + " - " + baixadas.get(i).getTitulo());
-            }
+    try {
+        Thread.sleep(2000);
+    } catch (Exception e) {
+
+    }
+
+    baixadas.add(musica);
+
+    System.out.println(
+            Cores.VERDE +
+            "\nDownload concluído!" +
+            Cores.RESET
+    );
+}
+
+@Override
+public void removerDownload(Musica musica) {
+
+    if (baixadas.remove(musica)) {
+
+        System.out.println(
+                Cores.VERMELHO +
+                "\nDownload removido!" +
+                Cores.RESET
+        );
+
+    } else {
+
+        System.out.println(
+                Cores.VERMELHO +
+                "\nMúsica não encontrada!" +
+                Cores.RESET
+        );
+    }
+}
+
+@Override
+public boolean estaBaixada(Musica musica) {
+    return baixadas.contains(musica);
+}
+
+@Override
+public int getTamanhoBaixados() {
+    return baixadas.size();
+}
+
+public void listarBaixadas() {
+
+    if (baixadas.isEmpty()) {
+
+        System.out.println("\nNenhuma música baixada.");
+
+    } else {
+
+        System.out.println();
+
+        for (int i = 0; i < baixadas.size(); i++) {
+
+            Musica m = baixadas.get(i);
+
+            System.out.println(
+                    i + " - " +
+                    m.getTitulo() +
+                    " | " +
+                    m.getArtista()
+            );
         }
+    }
+}
+
+    public ArrayList<Musica> getBaixadas() {
+    return baixadas;
     }
 }
