@@ -1,11 +1,20 @@
 package br.com.streaming.modelo;
 
-public class Musica {
+import java.util.Scanner;
+
+import br.com.streaming.servico.Reproduzivel;
+import br.com.streaming.util.Cores;
+
+public class Musica implements Reproduzivel {
+
 
     private String titulo;
     private String artista;
     private int duracao;
     private String genero;
+
+    private boolean tocando = false;
+    private boolean pausada = false;
 
     public Musica(String titulo, String artista, int duracao, String genero) {
         setTitulo(titulo);
@@ -69,5 +78,110 @@ public class Musica {
         int min = duracao / 60;
         int seg = duracao % 60;
         return String.format("%d:%02d", min, seg);
+    }
+
+    // Implementação dos métodos da interface Reproduzivel
+@Override
+public void reproduzir() {
+
+    Scanner scanner = new Scanner(System.in);
+
+    tocando = true;
+    pausada = false;
+
+    while (tocando) {
+
+        System.out.println(Cores.VERDE + """
+╔════════════════════════════════════╗
+║         REPRODUZINDO              ║
+╚════════════════════════════════════╝
+""" + Cores.RESET);
+
+        System.out.println("> Música: " + titulo);
+        System.out.println("> Artista: " + artista);
+        System.out.println("> Duração: " + formatarDuracao());
+
+        if (pausada) {
+
+            System.out.println(Cores.VERMELHO + "\nSTATUS: PAUSADO" + Cores.RESET);
+
+            System.out.println("""
+            
+1 - Continuar
+2 - Parar
+""");
+
+        } else {
+
+            System.out.println(Cores.VERDE + "\nSTATUS: TOCANDO" + Cores.RESET);
+
+            System.out.println("""
+            
+1 - Pausar
+2 - Parar
+""");
+        }
+
+        System.out.print("Escolha: ");
+
+        int op;
+
+        try {
+            op = Integer.parseInt(scanner.nextLine());
+        } catch (Exception e) {
+            op = -1;
+        }
+
+        if (!pausada) {
+
+            switch (op) {
+
+                case 1:
+                    pausar();
+                    break;
+
+                case 2:
+                    parar();
+                    break;
+
+                default:
+                    System.out.println(Cores.VERMELHO + "Opção inválida!" + Cores.RESET);
+            }
+
+        } else {
+
+            switch (op) {
+
+                case 1:
+                    pausada = false;
+                    System.out.println(Cores.VERDE + "\n>> Música retomada!" + Cores.RESET);
+                    break;
+
+                case 2:
+                    parar();
+                    break;
+
+                default:
+                    System.out.println(Cores.VERMELHO + "Opção inválida!" + Cores.RESET);
+            }
+        }
+    }
+}
+
+@Override
+public void pausar() {
+    pausada = true;
+    System.out.println(Cores.VERMELHO + "\n|| Música pausada!" + Cores.RESET);
+}
+
+@Override
+public void parar() {
+    tocando = false;
+    System.out.println(Cores.VERMELHO + "\n[] Reprodução encerrada!" + Cores.RESET);
+}
+
+@Override
+public int getDuracaoTotal() {
+    return duracao;
     }
 }

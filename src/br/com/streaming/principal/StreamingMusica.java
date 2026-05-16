@@ -897,7 +897,11 @@ public static void reproduzirMusica() {
 └────────────────────────────────────┘
 """ + Cores.RESET);
 
-            usuarioLogado.reproduzirMusica(musicas.get(idx));
+            Musica musicaSelecionada = musicas.get(idx);
+
+            usuarioLogado.reproduzirMusica(musicaSelecionada);
+
+            musicaSelecionada.reproduzir();
 
         } else {
 
